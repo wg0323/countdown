@@ -26,10 +26,12 @@ body {
 
 .app {
   position: absolute;
-  inset: 8px;
-  border-radius: 20px;
-  background: #0a0a0b;
-  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.65);
+  inset: 0;
+  border-radius: 8px;
+  /* 窗口本身由系统 acrylic 模糊桌面，这里只叠半透明暗色 + 顶部高光保证文字对比 */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    rgba(10, 10, 12, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   padding: 18px 24px;
 }
 
@@ -59,7 +61,7 @@ body {
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #6e6e77;
+  color: #8f8f98;
   font-size: 12px;
   line-height: 1;
   cursor: pointer;
@@ -94,7 +96,7 @@ body {
 .field label {
   font-size: 11px;
   letter-spacing: 3px;
-  color: #7c7c86;
+  color: #9a9aa4;
 }
 
 .field input {
@@ -171,7 +173,7 @@ body {
   height: 18px;
   font-size: 13px;
   letter-spacing: 1px;
-  color: #a0a0a8;
+  color: #b0b0b8;
 }
 
 .clock {
@@ -301,7 +303,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
   background: transparent;
-  color: #9a9aa3;
+  color: #a6a6af;
   font-size: 13px;
   cursor: pointer;
 }

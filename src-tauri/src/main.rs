@@ -133,6 +133,34 @@ fn poll_loop(app: AppHandle) {
     }
 }
 
+/// acrylic 会铺满整个窗口矩形，用 Win11 的 DWM 圆角把它裁成圆角
+fn round_window_corners(window: &tauri::WebviewWindow) {
+    const DWMWA_WINDOW_CORNER_PREFERENCE: u32 = 33;
+    const DWMWCP_ROUND: u32 = 2;
+
+    #[link(name = "dwmapi")]
+    extern "system" {
+        fn DwmSetWindowAttribute(
+            hwnd: isize,
+            attr: u32,
+            value: *const std::ffi::c_void,
+            size: u32,
+        ) -> i32;
+    }
+
+    if let Ok(hwnd) = window.hwnd() {
+        let preference: u32 = DWMWCP_ROUND;
+        unsafe {
+            DwmSetWindowAttribute(
+                hwnd.0 as isize,
+                DWMWA_WINDOW_CORNER_PREFERENCE,
+                &preference as *const u32 as *const std::ffi::c_void,
+                std::mem::size_of::<u32>() as u32,
+            );
+        }
+    }
+}
+
 fn build_tray(app: &AppHandle) -> tauri::Result<()> {
     let show = MenuItem::with_id(app, "show", "显示窗口", true, None::<&str>)?;
     let quit = MenuItem::with_id(app, "quit", "退出", true, None::<&str>)?;
@@ -176,6 +204,11 @@ fn main() {
         })
         .setup(|app| {
             let handle = app.handle().clone();
+            // 让 Windows 的 acrylic 底色跟随深色主题，避免浅色系统下玻璃泛白
+            if let Some(window) = app.get_webview_window(WINDOW_LABEL) {
+                let _ = window.set_theme(Some(tauri::Theme::Dark));
+                round_window_corners(&window);
+            }
             build_tray(&handle)?;
             std::thread::spawn(move || poll_loop(handle));
             Ok(())
