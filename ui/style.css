@@ -1,0 +1,326 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Oswald（SIL Open Font License 1.1，许可证见 fonts/OFL-oswald.txt）
+   窄体量足够，只需 scaleX 轻微修正即可贴合参考截图比例 */
+@font-face {
+  font-family: "Oswald";
+  font-style: normal;
+  font-weight: 600;
+  font-display: block;
+  src: url("fonts/oswald-600.woff2") format("woff2");
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+  color: #fff;
+  user-select: none;
+  cursor: default;
+}
+
+.app {
+  position: absolute;
+  inset: 8px;
+  border-radius: 20px;
+  background: #0a0a0b;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.65);
+  padding: 18px 24px;
+}
+
+.view {
+  position: absolute;
+  inset: 0;
+  padding: 18px 24px;
+}
+
+.view[hidden] {
+  display: none !important;
+}
+
+/* ---------- 右上角窗口按钮 ---------- */
+.win-btns {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 4px;
+  z-index: 20;
+}
+
+.win-btn {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #6e6e77;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.win-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* ---------- 设置页 ---------- */
+#setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+}
+
+.time-inputs {
+  display: flex;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.field label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #7c7c86;
+}
+
+.field input {
+  width: 76px;
+  height: 64px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: #1a1a1d;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+
+.field input:focus {
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+.field input::-webkit-outer-spin-button,
+.field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.presets {
+  display: flex;
+  gap: 12px;
+}
+
+.preset {
+  padding: 8px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: transparent;
+  color: #b8b8c0;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.preset:hover {
+  border-color: rgba(255, 255, 255, 0.32);
+  color: #fff;
+}
+
+.primary {
+  padding: 12px 60px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #0a0a0b;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.primary:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ---------- 倒计时页 ---------- */
+#countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.caption {
+  height: 18px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #a0a0a8;
+}
+
+.clock {
+  display: flex;
+  gap: 24px;
+}
+
+.card {
+  position: relative;
+  width: 136px;
+  height: 136px;
+  border-radius: 14px;
+  background: #2b2b2e;
+  perspective: 1200px;
+}
+
+.half,
+.flap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  background: #2b2b2e;
+}
+
+.half.upper,
+.flap.flap-top {
+  top: 0;
+  border-radius: 14px 14px 0 0;
+}
+
+.half.lower,
+.flap.flap-bottom {
+  bottom: 0;
+  border-radius: 0 0 14px 14px;
+}
+
+.digits {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 200%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Oswald", sans-serif;
+  font-size: 121px;
+  font-weight: 600;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  /* translateY 修正字体升降部不对称导致的下坠，使字身几何中心与中缝对齐 */
+  transform: translateY(-0.053em) scaleX(0.79);
+}
+
+.half.upper .digits,
+.flap.flap-top .digits {
+  top: 0;
+}
+
+.half.lower .digits,
+.flap.flap-bottom .digits {
+  top: -100%;
+}
+
+.flap {
+  display: none;
+  z-index: 3;
+  backface-visibility: hidden;
+}
+
+.card.flipping .flap {
+  display: block;
+}
+
+.flap.flap-top {
+  transform-origin: 50% 100%;
+}
+
+.flap.flap-bottom {
+  transform-origin: 50% 0;
+}
+
+.card.flipping .flap-top {
+  animation: flip-top 250ms ease-in both;
+}
+
+.card.flipping .flap-bottom {
+  animation: flip-bottom 250ms ease-out 250ms both;
+}
+
+@keyframes flip-top {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes flip-bottom {
+  from {
+    transform: rotateX(90deg);
+  }
+  to {
+    transform: rotateX(0deg);
+  }
+}
+
+.seam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 6;
+}
+
+.controls {
+  display: flex;
+  gap: 14px;
+}
+
+.ghost {
+  padding: 7px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: transparent;
+  color: #9a9aa3;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ghost:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.22;
+  }
+}
+
+.clock.finished .card {
+  animation: pulse 500ms ease-in-out 3;
+}

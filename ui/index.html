@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>倒计时</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app" data-tauri-drag-region>
+      <!-- 设置页 -->
+      <section id="setup" class="view" data-tauri-drag-region>
+        <div class="win-btns">
+          <button id="btn-setup-close" class="win-btn" title="隐藏到托盘">✕</button>
+        </div>
+        <div class="time-inputs">
+          <div class="field">
+            <label for="in-h">时</label>
+            <input id="in-h" type="number" min="0" max="99" value="0" />
+          </div>
+          <div class="field">
+            <label for="in-m">分</label>
+            <input id="in-m" type="number" min="0" max="59" value="30" />
+          </div>
+          <div class="field">
+            <label for="in-s">秒</label>
+            <input id="in-s" type="number" min="0" max="59" value="0" />
+          </div>
+        </div>
+        <div class="presets">
+          <button class="preset" data-min="30" type="button">30 分钟</button>
+          <button class="preset" data-min="45" type="button">45 分钟</button>
+          <button class="preset" data-min="60" type="button">60 分钟</button>
+        </div>
+        <button id="btn-start" class="primary" type="button">开始</button>
+      </section>
+
+      <!-- 倒计时页 -->
+      <section id="countdown" class="view" hidden data-tauri-drag-region>
+        <div class="win-btns">
+          <button id="btn-min" class="win-btn" title="隐藏到托盘">—</button>
+          <button id="btn-close" class="win-btn" title="隐藏到托盘">✕</button>
+        </div>
+        <div id="caption" class="caption" data-tauri-drag-region>预计 --:-- 结束</div>
+        <div id="clock" class="clock" data-tauri-drag-region></div>
+        <div class="controls">
+          <button id="btn-pause" class="ghost" type="button">暂停</button>
+          <button id="btn-cancel" class="ghost" type="button">取消</button>
+        </div>
+      </section>
+    </div>
+
+    <script src="flip.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
