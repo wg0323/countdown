@@ -21,7 +21,7 @@
 
 界面对照的是翻牌时钟：深灰圆角卡片里放白色窄体数字，每秒沿中缝翻一次。
 
-![倒计时页](docs/screenshots/countdown.png)
+![倒计时页](assets/countdown.png)
 
 ### 核心功能
 
@@ -67,12 +67,15 @@ countdown/
 │   ├── tauri.conf.json     # 窗口参数、打包配置
 │   ├── capabilities/       # Tauri 2 权限声明
 │   └── icons/              # 由 assets/icon.png 生成的全套图标
-├── assets/icon.png         # 图标源图（1024×1024）
+├── assets/
+│   ├── icon.png            # 图标源图（1024×1024）
+│   ├── countdown.png       # 倒计时页截图
+│   ├── paused.png          # 暂停状态截图
+│   └── setup.png           # 设置页截图
 ├── README.md               # 项目说明（本文件）
 ├── LICENSE                 # MIT 项目许可证
 ├── build.bat               # 打包脚本（Windows 双击可用）
-├── docs/
-│   ├── screenshots/        # 运行时截图
+├── docs/                   # 设计资料，只留本地，不提交 git
 │   └── superpowers/        # 设计规格与实施计划
 └── package.json            # 只有 @tauri-apps/cli 一个 devDependency
 ```
